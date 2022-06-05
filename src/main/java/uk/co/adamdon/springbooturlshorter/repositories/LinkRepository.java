@@ -6,5 +6,4 @@ import uk.co.adamdon.springbooturlshorter.models.Link;
 public interface LinkRepository extends JpaRepository<Link, Long>
 {
 
-
 }

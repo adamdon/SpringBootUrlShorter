@@ -4,6 +4,8 @@ package uk.co.adamdon.springbooturlshorter.models;
 import org.hibernate.annotations.CreationTimestamp;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import java.util.Date;
 
 @Entity
@@ -17,6 +19,7 @@ public class Link
     @CreationTimestamp
     private Date createdAt;
 
+    @NotNull(message = "url is mandatory")
     @Column(name = "url")
     private String url;
 
@@ -30,6 +33,16 @@ public class Link
     }
 
 
+    @Override
+    public String toString()
+    {
+        return "Link{" +
+                "id=" + id +
+                ", createdAt=" + createdAt +
+                ", url='" + url + '\'' +
+                ", code='" + code + '\'' +
+                '}';
+    }
 
     //
     ////Getters and Setters

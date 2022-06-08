@@ -19,7 +19,8 @@ public class Link
     @CreationTimestamp
     private Date createdAt;
 
-    @NotNull(message = "url is mandatory")
+    @NotNull
+    @NotBlank(message = "url is mandatory")
     @Column(name = "url")
     private String url;
 

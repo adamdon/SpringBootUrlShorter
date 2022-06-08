@@ -2,15 +2,28 @@ package uk.co.adamdon.springbooturlshorter.controllers;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.transaction.TransactionSystemException;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.FieldError;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.context.request.WebRequest;
 import uk.co.adamdon.springbooturlshorter.models.Link;
 import uk.co.adamdon.springbooturlshorter.services.LinkService;
 
+import javax.validation.ConstraintViolation;
+import javax.validation.ConstraintViolationException;
 import javax.validation.Valid;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 @RestController
+@Validated
 public class LinkController
 {
     private final LinkService linkService;
@@ -60,8 +73,9 @@ public class LinkController
     }
 
 
-    @PostMapping("/api/createLink")
-    public ResponseEntity<Link> createLink(@Valid @RequestBody Link link)
+//    @PostMapping("/api/createLink")
+    @RequestMapping(value = "/api/createLink", method = RequestMethod.POST)
+    public ResponseEntity<Link> createLink(@Valid @RequestBody Link link, BindingResult bindingResult)
     {
         ResponseEntity<Link> returnResponseEntity;
         Link newLink;
@@ -80,6 +94,11 @@ public class LinkController
 
         return returnResponseEntity;
     }
+
+
+
+
+
 
 
 

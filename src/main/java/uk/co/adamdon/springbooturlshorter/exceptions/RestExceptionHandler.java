@@ -14,9 +14,12 @@ import uk.co.adamdon.springbooturlshorter.controllers.LinkController;
 @ControllerAdvice
 public class RestExceptionHandler extends ResponseEntityExceptionHandler
 {
+    private final Logger logger;
+
 
     public RestExceptionHandler()
     {
+        this.logger = LoggerFactory.getLogger(RestExceptionHandler.class);
     }
 
     @ExceptionHandler(javax.validation.ConstraintViolationException.class)
@@ -29,6 +32,8 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler
         jsonObject.put("status", HttpStatus.BAD_REQUEST);
         jsonObject.put("message", "Invalid data send");
         jsonObject.put("error", exception.getMessage());
+
+        logger.info("constraintViolationException: " + jsonObject.toString());
 
         return new ResponseEntity<>(jsonObject.toString(), HttpStatus.BAD_REQUEST);
     }

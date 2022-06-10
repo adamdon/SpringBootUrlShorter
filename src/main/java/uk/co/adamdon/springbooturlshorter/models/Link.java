@@ -1,6 +1,8 @@
 package uk.co.adamdon.springbooturlshorter.models;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import org.hibernate.annotations.CreationTimestamp;
 
 import javax.persistence.*;
@@ -14,18 +16,21 @@ public class Link
 {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
+    @JsonProperty(access = JsonProperty.Access.READ_ONLY)
     private Long id;
 
     @CreationTimestamp
+    @JsonProperty(access = JsonProperty.Access.READ_ONLY)
     private Date createdAt;
+
+    @Column(name = "code")
+    @JsonProperty(access = JsonProperty.Access.READ_ONLY)
+    private String code;
 
     @NotNull
     @NotBlank(message = "url is mandatory")
     @Column(name = "url")
     private String url;
-
-    @Column(name = "code")
-    private String code;
 
 
     public Link()

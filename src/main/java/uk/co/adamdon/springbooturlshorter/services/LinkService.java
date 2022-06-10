@@ -1,10 +1,18 @@
 package uk.co.adamdon.springbooturlshorter.services;
 
+import org.apache.commons.validator.routines.UrlValidator;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import uk.co.adamdon.springbooturlshorter.controllers.LinkController;
 import uk.co.adamdon.springbooturlshorter.models.Link;
 import uk.co.adamdon.springbooturlshorter.repositories.LinkRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import uk.co.adamdon.springbooturlshorter.utilities.CodeGenerator;
 
+import javax.validation.ConstraintViolation;
+import javax.validation.ConstraintViolationException;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
 
@@ -14,17 +22,39 @@ import java.util.Optional;
 public class LinkService
 {
     private final LinkRepository linkRepository;
+    private final Logger logger;
 
     public LinkService(LinkRepository linkRepository)
     {
         this.linkRepository = linkRepository;
+        this.logger = LoggerFactory.getLogger(LinkService.class);
     }
 
 
 
-    public Link createLink(Link link)
+    public Link createLink(Link link) throws Exception
     {
-        return linkRepository.save(link);
+        Link returnSavedLink;
+        UrlValidator urlValidator;
+        String linkUrlString;
+        String linkCodeString;
+
+
+        linkUrlString = link.getUrl();
+        urlValidator = new UrlValidator();
+
+        if(urlValidator.isValid(linkUrlString))
+        {
+            linkCodeString = CodeGenerator.getInstance().create(linkUrlString);
+            link.setCode(linkCodeString);
+
+            returnSavedLink = linkRepository.save(link);
+            return returnSavedLink;
+        }
+        else
+        {
+            throw new ConstraintViolationException("Not a real url", new HashSet<ConstraintViolation<?>>());
+        }
     }
 
 

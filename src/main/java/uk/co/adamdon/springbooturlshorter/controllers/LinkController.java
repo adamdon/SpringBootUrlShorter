@@ -1,5 +1,6 @@
 package uk.co.adamdon.springbooturlshorter.controllers;
 
+import org.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
@@ -75,22 +76,26 @@ public class LinkController
 
 //    @PostMapping("/api/createLink")
     @RequestMapping(value = "/api/createLink", method = RequestMethod.POST)
-    public ResponseEntity<Link> createLink(@Valid @RequestBody Link link, BindingResult bindingResult)
+    public ResponseEntity<Link> createLink(@Valid @RequestBody Link link, BindingResult bindingResult) throws Exception
     {
         ResponseEntity<Link> returnResponseEntity;
         Link newLink;
 
-        try
-        {
-            newLink = this.linkService.createLink(link);
-            returnResponseEntity = ResponseEntity.ok().body(newLink);
-            logger.info("createLink - Created Link: " + newLink.toString());
-        }
-        catch (Exception exception)
-        {
-            logger.info("createLink - Failed: " + link.toString());
-            returnResponseEntity = ResponseEntity.badRequest().body(new Link());
-        }
+        newLink = this.linkService.createLink(link);
+        returnResponseEntity = ResponseEntity.ok().body(newLink);
+        logger.info("createLink - Created Link: " + newLink.toString());
+
+//        try
+//        {
+//            newLink = this.linkService.createLink(link);
+//            returnResponseEntity = ResponseEntity.ok().body(newLink);
+//            logger.info("createLink - Created Link: " + newLink.toString());
+//        }
+//        catch (Exception exception)
+//        {
+//            logger.info("createLink - Failed: " + exception.getMessage() + " - " + link.toString());
+//            returnResponseEntity = ResponseEntity.badRequest().body(new Link());
+//        }
 
         return returnResponseEntity;
     }

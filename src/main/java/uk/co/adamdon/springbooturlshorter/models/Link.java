@@ -4,6 +4,7 @@ package uk.co.adamdon.springbooturlshorter.models;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.validator.constraints.URL;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
@@ -29,6 +30,7 @@ public class Link
 
     @NotNull
     @NotBlank(message = "url is mandatory")
+    @URL
     @Column(name = "url")
     private String url;
 

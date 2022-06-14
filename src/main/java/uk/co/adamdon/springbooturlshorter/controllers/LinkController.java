@@ -52,6 +52,26 @@ public class LinkController
         return returnResponseEntity;
     }
 
+
+
+
+//    @PostMapping("/api/createLink")
+    @RequestMapping(value = "/api/createLink", method = RequestMethod.POST)
+    public ResponseEntity<Link> createLink(@Valid @RequestBody Link link, BindingResult bindingResult) throws ConstraintViolationException
+    {
+        ResponseEntity<Link> returnResponseEntity;
+        Link newLink;
+
+        newLink = this.linkService.createLink(link);
+        returnResponseEntity = ResponseEntity.ok().body(newLink);
+        logger.info("createLink - Created Link: " + newLink.toString());
+
+        return returnResponseEntity;
+    }
+
+
+
+
     @GetMapping("/api/getLinkById/{id}")
     public ResponseEntity<Link> getLinkById(@PathVariable Long id)
     {
@@ -74,28 +94,24 @@ public class LinkController
     }
 
 
-//    @PostMapping("/api/createLink")
-    @RequestMapping(value = "/api/createLink", method = RequestMethod.POST)
-    public ResponseEntity<Link> createLink(@Valid @RequestBody Link link, BindingResult bindingResult) throws Exception
+
+    @GetMapping("/api/getLinkByCode/{code}")
+    public ResponseEntity<Link> getLinkByCode(@PathVariable String code)
     {
         ResponseEntity<Link> returnResponseEntity;
-        Link newLink;
+        Link foundLink;
 
-        newLink = this.linkService.createLink(link);
-        returnResponseEntity = ResponseEntity.ok().body(newLink);
-        logger.info("createLink - Created Link: " + newLink.toString());
-
-//        try
-//        {
-//            newLink = this.linkService.createLink(link);
-//            returnResponseEntity = ResponseEntity.ok().body(newLink);
-//            logger.info("createLink - Created Link: " + newLink.toString());
-//        }
-//        catch (Exception exception)
-//        {
-//            logger.info("createLink - Failed: " + exception.getMessage() + " - " + link.toString());
-//            returnResponseEntity = ResponseEntity.badRequest().body(new Link());
-//        }
+        try
+        {
+            foundLink = linkService.getLinkByCode(code);
+            returnResponseEntity = ResponseEntity.ok().body(foundLink);
+            logger.info("getLinkByCode - Found Link: " + foundLink.toString());
+        }
+        catch (Exception exception)
+        {
+            returnResponseEntity = ResponseEntity.badRequest().body(new Link());
+            logger.info("getLinkByCode - Not Found: " + exception.getMessage());
+        }
 
         return returnResponseEntity;
     }

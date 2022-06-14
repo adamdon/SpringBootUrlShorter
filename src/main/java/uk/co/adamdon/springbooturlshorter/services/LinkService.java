@@ -32,7 +32,7 @@ public class LinkService
 
 
 
-    public Link createLink(Link link) throws Exception
+    public Link createLink(Link link) throws ConstraintViolationException
     {
         Link returnSavedLink;
         UrlValidator urlValidator;
@@ -58,24 +58,46 @@ public class LinkService
     }
 
 
-	public Link getLinkById(Long LinkId) throws Exception
-    {
-		Optional<Link> foundLinkOptional = this.linkRepository.findById(LinkId);
 
-		if(foundLinkOptional.isPresent())
-        {
-			return foundLinkOptional.get();
-		}
-        else
-        {
-			throw new Exception("Record not found with id: " + LinkId);
-		}
-	}
 
 
     public List<Link> getAllLinks()
     {
         return this.linkRepository.findAll();
+    }
+
+
+    public Link getLinkById(Long LinkId) throws Exception
+    {
+        Optional<Link> foundLinkOptional = this.linkRepository.findById(LinkId);
+
+        if(foundLinkOptional.isPresent())
+        {
+            return foundLinkOptional.get();
+        }
+        else
+        {
+            throw new Exception("Record not found with id: " + LinkId);
+        }
+    }
+
+
+    public Link getLinkByCode(String code) throws Exception
+    {
+        List<Link> foundLinkList;
+        Link foundLink;
+
+        foundLinkList = this.linkRepository.findByCodeOrderById(code);
+
+        if(!foundLinkList.isEmpty())
+        {
+            foundLink = foundLinkList.get(0);
+            return foundLink;
+        }
+        else
+        {
+            throw new Exception("Record not found with code: " + code);
+        }
     }
 
 

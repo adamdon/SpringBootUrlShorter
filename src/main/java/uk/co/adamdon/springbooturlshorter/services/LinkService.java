@@ -35,7 +35,6 @@ public class LinkService
     public Link createLink(Link link) throws ConstraintViolationException
     {
         Link returnSavedLink;
-        Link foundLink;
         List<Link> foundLinkList;
         UrlValidator urlValidator;
         String linkUrlString;
@@ -75,21 +74,29 @@ public class LinkService
 
     public List<Link> getAllLinks()
     {
-        return this.linkRepository.findAll();
+        List<Link> allLinkList;
+
+        allLinkList = this.linkRepository.findAll();
+
+        return allLinkList;
     }
 
 
-    public Link getLinkById(Long LinkId) throws Exception
+    public Link getLinkById(Long LinkId) throws ConstraintViolationException
     {
-        Optional<Link> foundLinkOptional = this.linkRepository.findById(LinkId);
+        Optional<Link> foundLinkOptional;
+        Link foundLink;
 
+
+        foundLinkOptional = this.linkRepository.findById(LinkId);
         if(foundLinkOptional.isPresent())
         {
-            return foundLinkOptional.get();
+            foundLink = foundLinkOptional.get();
+            return foundLink;
         }
         else
         {
-            throw new Exception("Record not found with id: " + LinkId);
+            throw new ConstraintViolationException("Record not found with id: " + LinkId, new HashSet<>());
         }
     }
 

@@ -54,14 +54,11 @@ public class LinkController
 
 
 
-
-//    @PostMapping("/api/createLink")
     @RequestMapping(value = "/api/createLink", method = RequestMethod.POST)
-    public ResponseEntity<Link> createLink(@Valid @RequestBody Link link, BindingResult bindingResult) throws ConstraintViolationException
+    public ResponseEntity<Link> createLink(@Valid @RequestBody Link link) throws ConstraintViolationException
     {
         ResponseEntity<Link> returnResponseEntity;
         Link newLink;
-
 
         newLink = this.linkService.createLink(link);
         returnResponseEntity = ResponseEntity.ok().body(newLink);
@@ -74,22 +71,14 @@ public class LinkController
 
 
     @GetMapping("/api/getLinkById/{id}")
-    public ResponseEntity<Link> getLinkById(@PathVariable Long id)
+    public ResponseEntity<Link> getLinkById(@PathVariable Long id) throws ConstraintViolationException
     {
         ResponseEntity<Link> returnResponseEntity;
         Link foundLink;
 
-        try
-        {
-            foundLink = linkService.getLinkById(id);
-            returnResponseEntity = ResponseEntity.ok().body(foundLink);
-            logger.info("getLinkById - Found Link: " + foundLink.toString());
-        }
-        catch (Exception exception)
-        {
-            returnResponseEntity = ResponseEntity.badRequest().body(new Link());
-            logger.info("getLinkById - Not Found: " + exception.getMessage());
-        }
+        foundLink = linkService.getLinkById(id);
+        returnResponseEntity = ResponseEntity.ok().body(foundLink);
+        logger.info("getLinkById - Found Link: " + foundLink.toString());
 
         return returnResponseEntity;
     }
@@ -105,16 +94,6 @@ public class LinkController
         foundLink = linkService.getLinkByCode(code);
         returnResponseEntity = ResponseEntity.ok().body(foundLink);
         logger.info("getLinkByCode - Found Link: " + foundLink.toString());
-
-//        try
-//        {
-//
-//        }
-//        catch (Exception exception)
-//        {
-//            returnResponseEntity = ResponseEntity.badRequest().body(new Link());
-//            logger.info("getLinkByCode - Not Found: " + exception.getMessage());
-//        }
 
         return returnResponseEntity;
     }

@@ -45,7 +45,7 @@ public final class CodeGenerator
             encodedHashByteArray = messageDigest.digest(inputStringByteArray);
 //            encodedHashString = new String(Hex.encodeHex(encodedHashByteArray));
             encodedHashBase64String = Base64.getEncoder().encodeToString(encodedHashByteArray);
-            outputString = encodedHashBase64String;
+            outputString = encodedHashBase64String.replaceAll("/", "_");
 
             messageDigest.reset();
         }

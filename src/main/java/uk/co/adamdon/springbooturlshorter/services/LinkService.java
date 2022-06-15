@@ -65,7 +65,7 @@ public class LinkService
         }
         else
         {
-            throw new ConstraintViolationException("Not a real url", new HashSet<ConstraintViolation<?>>());
+            throw new ConstraintViolationException("Not a real url", new HashSet<>());
         }
     }
 
@@ -94,7 +94,7 @@ public class LinkService
     }
 
 
-    public Link getLinkByCode(String code) throws Exception
+    public Link getLinkByCode(String code) throws ConstraintViolationException
     {
         List<Link> foundLinkList;
         Link foundLink;
@@ -108,7 +108,7 @@ public class LinkService
         }
         else
         {
-            throw new Exception("Record not found with code: " + code);
+            throw new ConstraintViolationException("Record not found with code: " + code, new HashSet<>());
         }
     }
 

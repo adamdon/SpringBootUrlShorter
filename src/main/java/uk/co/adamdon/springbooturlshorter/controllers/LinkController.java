@@ -60,7 +60,6 @@ public class LinkController
     public ResponseEntity<Link> createLink(@Valid @RequestBody Link link, BindingResult bindingResult) throws ConstraintViolationException
     {
         ResponseEntity<Link> returnResponseEntity;
-        Link foundLink;
         Link newLink;
 
 
@@ -98,22 +97,24 @@ public class LinkController
 
 
     @GetMapping("/api/getLinkByCode/{code}")
-    public ResponseEntity<Link> getLinkByCode(@PathVariable String code)
+    public ResponseEntity<Link> getLinkByCode(@PathVariable String code) throws ConstraintViolationException
     {
         ResponseEntity<Link> returnResponseEntity;
         Link foundLink;
 
-        try
-        {
-            foundLink = linkService.getLinkByCode(code);
-            returnResponseEntity = ResponseEntity.ok().body(foundLink);
-            logger.info("getLinkByCode - Found Link: " + foundLink.toString());
-        }
-        catch (Exception exception)
-        {
-            returnResponseEntity = ResponseEntity.badRequest().body(new Link());
-            logger.info("getLinkByCode - Not Found: " + exception.getMessage());
-        }
+        foundLink = linkService.getLinkByCode(code);
+        returnResponseEntity = ResponseEntity.ok().body(foundLink);
+        logger.info("getLinkByCode - Found Link: " + foundLink.toString());
+
+//        try
+//        {
+//
+//        }
+//        catch (Exception exception)
+//        {
+//            returnResponseEntity = ResponseEntity.badRequest().body(new Link());
+//            logger.info("getLinkByCode - Not Found: " + exception.getMessage());
+//        }
 
         return returnResponseEntity;
     }

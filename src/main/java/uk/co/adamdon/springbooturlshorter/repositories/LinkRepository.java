@@ -9,4 +9,6 @@ public interface LinkRepository extends JpaRepository<Link, Long>
 {
     List<Link> findByCodeOrderById(String code);
 
+    List<Link> findByUrlOrderById(String url);
+
 }

@@ -60,7 +60,9 @@ public class LinkController
     public ResponseEntity<Link> createLink(@Valid @RequestBody Link link, BindingResult bindingResult) throws ConstraintViolationException
     {
         ResponseEntity<Link> returnResponseEntity;
+        Link foundLink;
         Link newLink;
+
 
         newLink = this.linkService.createLink(link);
         returnResponseEntity = ResponseEntity.ok().body(newLink);

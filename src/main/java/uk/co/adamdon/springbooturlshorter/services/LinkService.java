@@ -35,6 +35,8 @@ public class LinkService
     public Link createLink(Link link) throws ConstraintViolationException
     {
         Link returnSavedLink;
+        Link foundLink;
+        List<Link> foundLinkList;
         UrlValidator urlValidator;
         String linkUrlString;
         String linkCodeString;
@@ -45,10 +47,20 @@ public class LinkService
 
         if(urlValidator.isValid(linkUrlString))
         {
-            linkCodeString = CodeGenerator.getInstance().create(linkUrlString);
-            link.setCode(linkCodeString);
+            foundLinkList = this.linkRepository.findByUrlOrderById(linkUrlString);
 
-            returnSavedLink = linkRepository.save(link);
+            if(foundLinkList.isEmpty())
+            {
+                linkCodeString = CodeGenerator.getInstance().create(linkUrlString);
+                link.setCode(linkCodeString);
+                returnSavedLink = linkRepository.save(link);
+            }
+            else
+            {
+                returnSavedLink = foundLinkList.get(0);
+            }
+
+
             return returnSavedLink;
         }
         else
@@ -99,6 +111,9 @@ public class LinkService
             throw new Exception("Record not found with code: " + code);
         }
     }
+
+
+
 
 
 

@@ -12,6 +12,8 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.context.request.WebRequest;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import org.springframework.web.servlet.view.RedirectView;
 import uk.co.adamdon.springbooturlshorter.models.Link;
 import uk.co.adamdon.springbooturlshorter.services.LinkService;
 
@@ -36,6 +38,37 @@ public class LinkController
         this.linkService = linkService;
         this.logger = LoggerFactory.getLogger(LinkController.class);
     }
+
+
+
+
+
+    @GetMapping("/link/{code}")
+    public RedirectView link(@PathVariable String code)
+    {
+        RedirectView redirectView;
+        Link foundLink;
+        String urlString;
+
+        try
+        {
+            foundLink = linkService.getLinkByCode(code);
+            urlString = foundLink.getUrl();
+        }
+        catch (ConstraintViolationException constraintViolationException)
+        {
+            logger.info("Link Redirect - constraintViolationException: " + constraintViolationException.getMessage());
+            urlString = "../"; //home index.htm;
+        }
+
+
+        redirectView = new RedirectView(urlString);
+        logger.info("Link Redirect - Called with code: " + code);
+        return redirectView;
+    }
+
+
+
 
 
 

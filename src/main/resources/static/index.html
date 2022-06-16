@@ -3,11 +3,25 @@
     <head>
         <meta charset="UTF-8">
         <title>Test page</title>
+
+
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/react/17.0.2/umd/react.production.min.js" integrity="sha512-qlzIeUtTg7eBpmEaS12NZgxz52YYZVF5myj89mjJEesBd/oE9UPsYOX2QAXzvOAZYEvQohKdcY8zKE02ifXDmA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/17.0.2/umd/react-dom.production.min.js" integrity="sha512-9jGNr5Piwe8nzLLYTk8QrEMPfjGU0px80GYzKZUxi7lmCfrBjtyCc1V5kkS5vxVwwIB7Qpzc7UxLiQxfAN30dw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/6.26.0/babel.min.js" integrity="sha512-kp7YHLxuJDJcOzStgd6vtpxr4ZU9kjn77e6dBsivSz+pUuAuMlE2UTdKB7jjsWT84qbS8kdCWHPETnP/ctrFsA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+        <script defer type="text/babel" src="./components/Home.js" data-plugins="transform-es2015-modules-umd"></script>
+        <script defer type="text/babel" src="components/App.js" data-plugins="transform-es2015-modules-umd"></script>
+
+
     </head>
+
     <body>
-      <h1>test title</h1>
-      <p>
-        test text here
-      </p>
+        <div id="root"></div>
+
+        <script type="text/babel" data-plugins="transform-es2015-modules-umd"  >
+            import App from './components/App.js'
+            ReactDOM.render(<App />, document.getElementById('root'));
+        </script>
+
     </body>
 </html>

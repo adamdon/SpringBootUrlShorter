@@ -4,8 +4,7 @@ import Home from './Home';
 export default function App()
 {
     return (
-        <div className="App">
-            <p>App</p>
+        <div className="App d-flex justify-content-center">
             <Home/>
         </div>
     );

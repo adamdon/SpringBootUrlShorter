@@ -22,7 +22,8 @@ export default function CreateLink()
         setShowLink(false);
         setUrOutput("...Loading")
 
-        const requestUrl = ("http://" + window.location.host + "/api/createLink/");
+        // const requestUrl = ("" + window.location.protocol + window.location.host + "/api/createLink/");
+        const requestUrl = ("" + window.location.protocol + "/api/createLink/");
         const methodType = "POST"
         const requestHeaders = {"Content-Type": "application/json"};
         const requestBody = {url: urlInput};

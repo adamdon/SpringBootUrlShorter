@@ -23,7 +23,8 @@ export default function ViewLink()
         setShowFullLink(false);
         setCodeOutput("...Loading URL From Code")
 
-        const requestUrl = ("http://" + window.location.host + "/api/getLinkByCode/" + codeInput);
+        // const requestUrl = ("http://" + window.location.host + "/api/getLinkByCode/" + codeInput);
+        const requestUrl = ("" + window.location.protocol + "/api/getLinkByCode/" + codeInput);
         const methodType = "GET"
         const requestHeaders = {"Content-Type": "application/json"};
         const initOptions = {method: methodType, headers: requestHeaders};

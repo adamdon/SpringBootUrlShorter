@@ -1,6 +1,0 @@
-#FileLock
-#Sat Jul 02 12:03:45 BST 2022
-hostName=192.168.1.110
-id=181be94b3bd3bb97367487dc5927b864ce14ef84560
-method=file
-server=192.168.1.110\:62718

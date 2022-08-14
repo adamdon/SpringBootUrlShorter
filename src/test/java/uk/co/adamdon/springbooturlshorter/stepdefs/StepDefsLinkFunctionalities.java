@@ -1,7 +1,5 @@
 package uk.co.adamdon.springbooturlshorter.stepdefs;
 
-
-
 import io.cucumber.java.en.And;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
@@ -20,18 +18,26 @@ import org.springframework.web.client.RestTemplate;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.TimeUnit;
 
 
 public class StepDefsLinkFunctionalities
 {
     private final Logger log;
     private ResponseEntity<String> createLinkResponseEntity;
+    private ResponseEntity<String> getLinkByCodeResponseEntity;
     private ResponseEntity<String> getAllLinksResponseEntity;
+
+
 
     public StepDefsLinkFunctionalities()
     {
         log = LoggerFactory.getLogger(StepDefsLinkFunctionalities.class);
     }
+
+
+
+
 
 
 
@@ -102,6 +108,83 @@ public class StepDefsLinkFunctionalities
 
 
 
+
+
+    //
+    //Scenario makes call to GET a link url to getLinkByCode
+    //
+    @When("the client calls getLinkByCode with code in url")
+    public void theClientCallsGetLinkByCodeWithCodeInUrl()
+    {
+        RestTemplate restTemplate;
+
+        JSONObject jsonObject;
+        String codeString;
+
+        String urlString;
+
+
+        log.info("The client calls /api/getLinkByCode");
+        try
+        {
+            restTemplate = new RestTemplate();
+
+            codeString = "nvYTDPKKzdZBMxo1D41TZA==";
+            urlString = ("http://localhost:8080/api/getLinkByCode/" + codeString);
+
+            getLinkByCodeResponseEntity = restTemplate.getForEntity(urlString, String.class);
+            Assertions.assertNotNull(getLinkByCodeResponseEntity);
+        }
+        catch (RestClientException restClientException)
+        {
+            Assertions.fail("restClientException: + " + restClientException.getMessage());
+        }
+
+    }
+
+    @Then("the client receives status code of {int} for getLinkByCode")
+    public void theClientReceivesStatusCodeOfForGetLinkByCode(int arg0)
+    {
+        log.info("the client receives status code of 200 for getLinkByCode");
+        Assertions.assertEquals(getLinkByCodeResponseEntity.getStatusCode(), HttpStatus.OK);
+    }
+
+    @And("the client receives a URL for getLinkByCode")
+    public void theClientReceivesAURLForGetLinkByCode()
+    {
+        JSONObject jsonObject;
+        String expectedUrlString;
+        String linkUrlString;
+
+        log.info("the client receives a Code for createLink");
+        expectedUrlString = "https://www.google.co.uk/";
+
+        try
+        {
+            jsonObject = new JSONObject(getLinkByCodeResponseEntity.getBody());
+            linkUrlString = jsonObject.getString("url");
+
+            Assertions.assertEquals(expectedUrlString, linkUrlString);
+        }
+        catch (JSONException jsonException)
+        {
+            Assertions.fail("jsonException: + " + jsonException.getMessage());
+        }
+
+
+    }
+
+
+
+
+
+
+
+
+
+
+
+
     //
     // Scenario: client makes call to GET /getAllLinks
     //
@@ -158,7 +241,4 @@ public class StepDefsLinkFunctionalities
 
         Assertions.assertEquals(getAllLinksResponseEntity.getStatusCode(), HttpStatus.OK);
     }
-
-
-
 }
